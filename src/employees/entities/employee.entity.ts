@@ -3,8 +3,10 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ContactInfo } from './contact-info.entity';
 
 @Entity()
 export class Employee {
@@ -15,8 +17,13 @@ export class Employee {
   name: string;
 
   @ManyToOne(() => Employee, { onDelete: 'SET NULL' })
-  manager: Employee;
-
   @JoinColumn()
-  managerId: number;
+  manager?: Employee;
+
+  @Column({ nullable: true })
+  managerId?: number;
+
+  @OneToOne(() => ContactInfo, { cascade: true })
+  @JoinColumn()
+  contactInfo?: ContactInfo;
 }
